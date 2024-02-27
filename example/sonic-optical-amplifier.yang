@@ -1,0 +1,473 @@
+module sonic-optical-amplifier {
+  namespace "http://github.com/Azure/sonic-optical-amplifier";
+  prefix sonic-opt-amp;
+
+  import sonic-extension {
+    prefix sonic-ext;
+  }
+
+  organization
+    "SONiC";
+  contact
+    "SONiC";
+  description
+    "SONIC OPTICAL AMPLIFIER";
+
+  revision 2024-03-19 {
+    description
+      "Initial revision.";
+  }
+
+  container sonic-optical-amplifier {
+    container AMPLIFIER {
+      description
+        "Configuration data for optical amplifiers in CONFIG_DB.";
+      list AMPLIFIER_LIST {
+        key "name";
+        leaf name {
+          type string;
+          description
+            "User-defined name assigned to identify a specific amplifier
+             in the device";
+        }
+        leaf type {
+          type string;
+          description
+            "Type of the amplifier";
+        }
+        leaf target-gain {
+          type decimal64 {
+            range "0..max";
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Positive gain applied by the amplifier. This is used
+             when the amp-mode is in CONSTANT_GAIN or DYNAMIC_GAIN
+             mode to set the target gain that the amplifier should
+             achieve.";
+        }
+        leaf min-gain {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The minimum allowed gain of the amplifier. This is used
+             when the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode
+             to prevent the gain from dropping below a desired threshold.
+             If left empty, the platform will apply a minimum gain based
+             on hardware specifications.";
+        }
+        leaf max-gain {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The maximum allowed gain of the amplifier. This is used
+             when the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode
+             to prevent the gain from exceeding a desired threshold. If
+             left empty, the platform will apply a maximum gain based on
+             hardware specifications.";
+        }
+        leaf target-gain-tilt {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Gain tilt control";
+        }
+        leaf gain-range {
+          type string;
+          description
+            "Selected gain range.  The gain range is a platform-defined
+             value indicating the switched gain amplifier setting";
+        }
+        leaf amp-mode {
+          type string;
+          description
+            "The operating mode of the amplifier";
+        }
+        leaf target-output-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "Output optical power of the amplifier.";
+        }
+        leaf max-output-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The maximum optical output power of the amplifier. This
+             may be used to prevent the output power from exceeding a
+             desired threshold.";
+        }
+        leaf enabled {
+          type boolean;
+          description
+            "Turns power on / off to the amplifiers gain module.";
+        }
+        leaf fiber-type-profile {
+          type string;
+          description
+            "The fiber type profile specifies details about the
+             fiber type which are needed to accurately determine
+             the gain and perform efficient amplification. This is
+             only needed for Raman type amplifiers.";
+        }
+        leaf autolos {
+          type boolean;
+          description
+            "Determines the behavior of the amplifier on input LOS.";
+        }
+        leaf apr-enabled {
+          type boolean;
+          description
+            "Turns apr on / off to the amplifiers.";
+        }
+      }
+    }
+    container AMPLIFIER_TABLE {
+      sonic-ext:db-name "STATE_DB";
+      config false;
+      description
+        "Operational state data for optical amplifiers in STATE_DB.";
+      list AMPLIFIER_TABLE_LIST {
+        key "name";
+        leaf name {
+          type string;
+          description
+            "User-defined name assigned to identify a specific amplifier
+             in the device";
+        }
+        leaf type {
+          type string;
+          description
+            "Type of the amplifier";
+        }
+        leaf target-gain {
+          type decimal64 {
+            range "0..max";
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Positive gain applied by the amplifier. This is used
+             when the amp-mode is in CONSTANT_GAIN or DYNAMIC_GAIN
+             mode to set the target gain that the amplifier should
+             achieve.";
+        }
+        leaf min-gain {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The minimum allowed gain of the amplifier. This is used
+             when the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode
+             to prevent the gain from dropping below a desired threshold.
+             If left empty, the platform will apply a minimum gain based
+             on hardware specifications.";
+        }
+        leaf max-gain {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The maximum allowed gain of the amplifier. This is used
+             when the amp-mode is in CONSTANT_POWER or DYNAMIC_GAIN mode
+             to prevent the gain from exceeding a desired threshold. If
+             left empty, the platform will apply a maximum gain based on
+             hardware specifications.";
+        }
+        leaf target-gain-tilt {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Gain tilt control";
+        }
+        leaf gain-range {
+          type string;
+          description
+            "Selected gain range.  The gain range is a platform-defined
+             value indicating the switched gain amplifier setting";
+        }
+        leaf amp-mode {
+          type string;
+          description
+            "The operating mode of the amplifier";
+        }
+        leaf target-output-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "Output optical power of the amplifier.";
+        }
+        leaf max-output-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The maximum optical output power of the amplifier. This
+             may be used to prevent the output power from exceeding a
+             desired threshold.";
+        }
+        leaf enabled {
+          type boolean;
+          description
+            "Turns power on / off to the amplifiers gain module.";
+        }
+        leaf fiber-type-profile {
+          type string;
+          description
+            "The fiber type profile specifies details about the
+             fiber type which are needed to accurately determine
+             the gain and perform efficient amplification. This is
+             only needed for Raman type amplifiers.";
+        }
+        leaf component {
+          type string;
+          description
+            "Reference to the system-supplied physical component that
+             the amplifier gain block is contained within. Multiple
+             amplifier gain blocks may be contained within the same
+             physical component.";
+        }
+        leaf ingress-port {
+          type string;
+          description
+            "Reference to system-supplied name of the amplifier ingress
+             port. This leaf is only valid for ports of type INGRESS.";
+        }
+        leaf egress-port {
+          type string;
+          description
+            "Reference to system-supplied name of the amplifier egress
+             port. This leaf is only valid for ports of type EGRESS.";
+        }
+        leaf actual-gain {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "The actual gain applied by the amplifier in units of
+             0.01dB. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf actual-gain-tilt {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "The actual tilt applied by the amplifier in units of
+             0.01dB. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf input-power-total {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The total input optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf input-power-c-band {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The C band (consisting of approximately 191 to 195 THz or
+             1530nm to 1565 nm) input optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf input-power-l-band {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The L band (consisting of approximately 184 to 191 THz or
+             1565 to 1625 nm) input optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf output-power-total {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The total output optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf output-power-c-band {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The C band (consisting of approximately 191 to 195 THz or
+             1530nm to 1565 nm)output optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf output-power-l-band {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The L band (consisting of approximately 184 to 191 THz or
+             1565 to 1625 nm)output optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf laser-bias-current {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "mA";
+          description
+            "The current applied by the system to the transmit laser to
+             achieve the output power. The current is expressed in mA
+             with up to two decimal precision. If avg/min/max statistics
+             are not supported, just supply the instant value";
+        }
+        leaf optical-return-loss {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The optical return loss (ORL) is the ratio of the light
+             reflected back into the port to the light launched out of
+             the port. ORL is in units of 0.01dBm. If avg/min/max
+             statistics are not supported, just supply the instant value";
+        }
+        leaf autolos {
+          type boolean;
+          description
+            "Determines the behavior of the amplifier on input LOS.";
+        }
+        leaf apr-enabled {
+          type boolean;
+          description
+            "Turns apr on / off to the amplifiers.";
+        }
+      }
+    }
+    container OSC {
+      description
+        "Configuration data for optical amplifiers in CONFIG_DB.";
+      list OSC_LIST {
+        key "interface";
+        leaf interface {
+          type string;
+          description
+            "Reference to an OSC interface";
+        }
+        leaf enabled {
+          type boolean;
+          description
+            "turn on/off sfp";
+        }
+      }
+    }
+    container OSC_TABLE {
+      sonic-ext:db-name "STATE_DB";
+      config false;
+      description
+        "Operational state data for optical amplifiers in STATE_DB.";
+      list OSC_TABLE_LIST {
+        key "interface";
+        leaf interface {
+          type string;
+          description
+            "Reference to an OSC interface";
+        }
+        leaf input-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The input optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             the target is expected to just supply the instant value";
+        }
+        leaf output-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The output optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             the target is expected to just supply the instant value";
+        }
+        leaf laser-bias-current {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "mA";
+          description
+            "The current applied by the system to the transmit laser to
+             achieve the output power. The current is expressed in mA
+             with up to one decimal precision. If avg/min/max statistics
+             are not supported, the target is expected to just supply
+             the instant value";
+        }
+        leaf output-frequency {
+          type uint64;
+          units "MHz";
+          description
+            "The frequency in MHz of the individual physical channel
+             (e.g. ITU C50 - 195.0THz and would be reported as
+             195,000,000 MHz in this model). This attribute is not
+             configurable on most client ports.";
+        }
+        leaf enabled {
+          type boolean;
+          description
+            "turn on/off sfp";
+        }
+        leaf drop-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "drop power";
+        }
+        leaf add-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "add power";
+        }
+      }
+    }
+  }
+}
+

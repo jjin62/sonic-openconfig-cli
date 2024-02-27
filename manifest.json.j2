@@ -1,0 +1,53 @@
+{
+    "version": "1.0.0",
+    "package": {
+        "version": "{{ version }}",
+        "name": "openconfig-cli",
+        "description": "SONiC application extension for CLI based on openconfig yang model",
+        "depends": [
+          {
+            "name": "swss",
+            "version": ">=1.0.0",
+            "components": {
+              "libswsscommon": ">=1.0.0"
+            }
+          }
+        ],
+        "changelog": {
+            "1.0.0": {
+                "changes": ["Initial release"],
+                "date": "25 Feb 2024 12:24:30 +0300"
+            }
+        }
+    },
+    "service": {
+        "name": "{{ container_name }}",
+        "requires": [],
+        "after": ["swss"],
+        "before": [],
+        "dependent-of": [],
+        "asic-service": false,
+        "host-service": true,
+        "warm-shutdown": {
+            "after": ["swss"]
+        },
+        "fast-shutdown": {
+            "before": ["swss"]
+        }
+    },
+    "container": {
+        "privileged": true,
+        "volumes": [
+          "/run/systemd:/run/systemd:rw"
+        ],
+        "tmpfs": []
+    },
+    "processes": [],
+    "cli": {
+        "show": "/cli/show.py",
+        "auto-generate-config": true,
+        "auto-generate-show": true,
+        "auto-generate-config-source-yang-modules": [{{ config_modules }}],
+        "auto-generate-show-source-yang-modules": [{{ show_modules }}]
+    }
+}

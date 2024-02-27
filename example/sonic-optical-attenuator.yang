@@ -1,0 +1,165 @@
+module sonic-optical-attenuator {
+  namespace "http://github.com/Azure/sonic-optical-attenuator";
+  prefix sonic-opt-att;
+
+  import sonic-extension {
+    prefix sonic-ext;
+  }
+
+  organization
+    "SONiC";
+  contact
+    "SONiC";
+  description
+    "SONIC OPTICAL ATTENUATOR";
+
+  revision 2024-03-19 {
+    description
+      "Initial revision.";
+  }
+
+  container sonic-optical-attenuator {
+    container ATTENUATOR {
+      description
+        "Configuration data for optical attenuators in CONFIG_DB.";
+      list ATTENUATOR_LIST {
+        key "name";
+        leaf name {
+          type string;
+          description
+            "User-defined name assigned to identify a specific attenuator
+             in the device";
+        }
+        leaf attenuation-mode {
+          type string;
+          description
+            "The operating mode of the attenuator";
+        }
+        leaf target-output-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Power level set on the output of attenuator.  This leaf is
+             only relevant when in CONSTANT_POWER mode.";
+        }
+        leaf attenuation {
+          type decimal64 {
+            range "0..max";
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Attenuation applied by the attenuator.  This leaf is only
+             relevant when in CONSTANT_ATTENUATION mode.";
+        }
+        leaf enabled {
+          type boolean;
+          description
+            "When true, attenuator is set to specified attenuation or varies to
+             maintain constant output power.  When false, the attenuator is set
+             max attenuation or blocked.";
+        }
+      }
+    }
+    container ATTENUATOR_TABLE {
+      sonic-ext:db-name "STATE_DB";
+      config false;
+      description
+        "Operational state data for optical attenuators in STATE_DB.";
+      list ATTENUATOR_TABLE_LIST {
+        key "name";
+        leaf name {
+          type string;
+          description
+            "User-defined name assigned to identify a specific attenuator
+             in the device";
+        }
+        leaf attenuation-mode {
+          type string;
+          description
+            "The operating mode of the attenuator";
+        }
+        leaf target-output-power {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Power level set on the output of attenuator.  This leaf is
+             only relevant when in CONSTANT_POWER mode.";
+        }
+        leaf attenuation {
+          type decimal64 {
+            range "0..max";
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "Attenuation applied by the attenuator.  This leaf is only
+             relevant when in CONSTANT_ATTENUATION mode.";
+        }
+        leaf enabled {
+          type boolean;
+          description
+            "When true, attenuator is set to specified attenuation or varies to
+             maintain constant output power.  When false, the attenuator is set
+             max attenuation or blocked.";
+        }
+        leaf component {
+          type string;
+          description
+            "Reference to the system-supplied physical component that
+             the attenuator block is contained within. Multiple
+             attenuator blocks may be contained within the same
+             physical component.";
+        }
+        leaf ingress-port {
+          type string;
+          description
+            "Reference to system-supplied name of the attenuator ingress
+             port. This leaf is only valid for ports of type INGRESS.";
+        }
+        leaf egress-port {
+          type string;
+          description
+            "Reference to system-supplied name of the attenuator egress
+             port. This leaf is only valid for ports of type EGRESS.";
+        }
+        leaf actual-attenuation {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dB";
+          description
+            "The actual attenuation applied by the attenuator in units of
+             0.01dB. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf output-power-total {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The total output optical power of this port in units
+             of 0.01dBm. If avg/min/max statistics are not supported,
+             just supply the instant value";
+        }
+        leaf optical-return-loss {
+          type decimal64 {
+            fraction-digits 2;
+          }
+          units "dBm";
+          description
+            "The optical return loss (ORL) is the ratio of the light
+             reflected back into the port to the light launched out of
+             the port. ORL is in units of 0.01dBm. If avg/min/max
+             statistics are not supported, just supply the instant value.";
+        }
+      }
+    }
+  }
+}
+

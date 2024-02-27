@@ -1,0 +1,50 @@
+module sonic-channel-monitor-state {
+  namespace "http://github.com/Azure/sonic-channel-monitor-state";
+  prefix sonic-opt-cha-mon;
+
+  import sonic-extension {
+    prefix sonic-ext;
+  }
+
+  organization
+    "SONiC";
+  contact
+    "SONiC";
+  description
+    "SONIC CHANNEL MONITOR STATE";
+
+  revision 2024-03-05 {
+    description
+      "Initial revision.";
+  }
+
+  container sonic-channel-monitor-state {
+    container CHANNEL_MONITOR_STATE {
+      list CHANNEL_MONITOR_LIST {
+        key "name";
+        sonic-ext:map-list "true"; //special annotation for map table
+
+        leaf name {
+          type string;
+        }
+
+        leaf monitor-port {
+          type string;
+        }
+
+        list OCM_CHANNEL_LIST { //this is list inside list for storing mapping between two fields
+          key "lower-frequency upper-frequency";
+          leaf lower-frequency {
+             type oc-opt-types:frequency-type;
+          }
+          leaf lower-frequency {
+             type oc-opt-types:frequency-type;
+          }
+          leaf power {
+             type decimal64;
+          }
+        }
+      }
+    }
+  }
+}

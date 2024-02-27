@@ -1,0 +1,138 @@
+module sonic-platform-psu {
+  namespace "http://github.com/Azure/sonic-platform-psu";
+  prefix sonic-pla-psu;
+
+  import sonic-extension {
+    prefix sonic-ext;
+  }
+
+  organization
+    "SONiC";
+  contact
+    "SONiC";
+  description
+    "SONIC PLATFORM PSU";
+
+  revision 2024-03-19 {
+    description
+      "Initial revision.";
+  }
+
+  container sonic-platform-psu {
+    container PSU_INFO {
+      sonic-ext:db-name "STATE_DB";
+      config false;
+      description
+        "Operational state data for openconfig platform:componentss in STATE_DB.";
+      list PSU_INFO_LIST {
+        key "name";
+        leaf name {
+          type string;
+          description
+            "Device name for the component -- this may not be a
+             configurable parameter on many implementations.  Where
+             component preconfiguration is supported, for example,
+             the component name may be configurable.";
+        }
+        leaf model {
+          type union {
+            type string;
+            type string;
+          }
+          description
+            "Type of component as identified by the system";
+        }
+        leaf revision {
+          type string;
+          description
+            "For hardware components, this is the hardware revision of
+             the component.";
+        }
+        leaf serial {
+          type string;
+          description
+            "System-assigned serial number of the component.";
+        }
+        leaf is_replaceable {
+          type boolean;
+          description
+            "If true, this component is removable or is a field
+             replaceable unit";
+        }
+        leaf status {
+          type string;
+          description
+            "If applicable, this reports the current operational status
+             of the component.";
+        }
+        leaf led_status {
+          type string;
+          description
+            "LED status color";
+        }
+        leaf temp {
+          type decimal64 {
+            fraction-digits 1;
+          }
+          units "celsius";
+          description
+            "Temperature in degrees Celsius of the component. Values include
+             the instantaneous, average, minimum, and maximum statistics. If
+             avg/min/max statistics are not supported, the target is expected
+             to just supply the instant value";
+        }
+        leaf temp_threshold {
+          type decimal64 {
+            fraction-digits 1;
+          }
+          units "celsius";
+          description
+            "The high threshold temperature for the sensor";
+        }
+        leaf presence {
+          type boolean;
+          description
+            "Adminsitrative control on the on/off state of the power
+             supply unit.";
+        }
+        leaf max_power {
+          type string;
+          units "watts";
+          description
+            "Maximum power capacity of the power supply.";
+        }
+        leaf input_current {
+          type string;
+          units "amps";
+          description
+            "The input current draw of the power supply.";
+        }
+        leaf input_voltage {
+          type string;
+          units "volts";
+          description
+            "Input voltage to the power supply.";
+        }
+        leaf current {
+          type string;
+          units "amps";
+          description
+            "The output current supplied by the power supply.";
+        }
+        leaf voltage {
+          type string;
+          units "volts";
+          description
+            "Output voltage supplied by the power supply.";
+        }
+        leaf power {
+          type string;
+          units "watts";
+          description
+            "Output power supplied by the power supply.";
+        }
+      }
+    }
+  }
+}
+

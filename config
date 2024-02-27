@@ -1,0 +1,13 @@
+#sonic-mgmt-common directory
+/home/sonic/sonic/sonic-buildimage/src/sonic-mgmt-common
+
+#List yang models transformer need to load
+openconfig-optical-attenuator.yang
+openconfig-optical-attenuator-annot.yang
+openconfig-optical-amplifier.yang
+openconfig-optical-amplifier-annot.yang
+openconfig-platform-psu.yang
+openconfig-platform-psu-annot.yang
+openconfig-platform-fan.yang
+openconfig-platform-fan-annot.yang
+

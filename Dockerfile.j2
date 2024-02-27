@@ -1,0 +1,12 @@
+FROM sonic-sdk
+
+RUN apt-get update 
+RUN pip install psutil
+
+COPY cli/ /cli/
+
+LABEL com.azure.sonic.manifest='{{ manifest }}'
+
+{% for module in modules %}
+LABEL com.azure.sonic.yang-module.{{ module['name'] }}='{{ module['yang'] }}'
+{% endfor %}
